@@ -2,7 +2,7 @@ OUTPUT_FORMAT("binary");
 
 SECTIONS
 {
-	.head 0x0: {
+	.head 0x0 : {
 		LONG(64 * 1024)			/*  0: stack+.data+heapの大きさ（4KBの倍数） */
 		LONG(0x69726148)		/*  4: シグネチャ"Hari" */
 		LONG(0)					/*  8: mmareaの大きさ（4KBの倍数） */
