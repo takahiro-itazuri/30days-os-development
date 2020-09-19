@@ -6,7 +6,7 @@ SECTIONS
 		LONG(64 * 1024)			/*  0: stack+.data+heapの大きさ（4KBの倍数） */
 		LONG(0x69726148)		/*  4: シグネチャ"Hari" */
 		LONG(0)					/*  8: mmareaの大きさ（4KBの倍数） */
-		LONG(0x31000)			/* 12: スタック初期値＆.data転送先 */
+		LONG(0x310000)			/* 12: スタック初期値＆.data転送先 */
 		LONG(SIZEOF(.data))		/* 16: .dataサイズ*/
 		LONG(LOADADDR(.data))	/* 20: .dataの初期値列のファイル位置 */
 		LONG(0xE9000000)		/* 24: 0xE9000000 */
