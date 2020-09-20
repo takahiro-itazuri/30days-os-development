@@ -10,7 +10,7 @@ asmhead.bin: asmhead.asm Makefile
 nasmfunc.obj: nasmfunc.asm Makefile
 	nasm -f elf32 -o nasmfunc.obj -l nasmfunc.lst nasmfunc.asm
 
-bootpack.hrb: nasmfunc.obj hankaku.c mystdio.c dsctbl.c graphic.c hrb.ld Makefile
+bootpack.hrb: nasmfunc.obj hankaku.c mystdio.h mystdio.c dsctbl.c graphic.c hrb.ld Makefile
 	i386-elf-gcc -march=i486 -m32 -nostdlib -T hrb.ld -o bootpack.hrb bootpack.c nasmfunc.obj hankaku.c mystdio.c dsctbl.c graphic.c
 
 haribote.sys: asmhead.bin bootpack.hrb Makefile

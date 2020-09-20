@@ -1,4 +1,5 @@
 OBJS_BOOTPACK = nasmfunc.obj hankaku.obj mystdio.obj graphic.obj dsctbl.obj bootpack.obj
+HDRS_BOOTPACK = mystdio.h
 
 default:
 	make img
@@ -15,7 +16,7 @@ nasmfunc.obj: nasmfunc.asm Makefile
 %.obj: %.c Makefile
 	i386-elf-gcc -c -march=i486 -m32 -nostdlib -o $@ $<
 
-bootpack.hrb: $(OBJS_BOOTPACK) hrb.ld Makefile
+bootpack.hrb: $(OBJS_BOOTPACK) $(HDRS_BOOTPACK) hrb.ld Makefile
 	i386-elf-gcc -march=i486 -m32 -nostdlib -T hrb.ld -o bootpack.hrb $(OBJS_BOOTPACK)
 
 haribote.sys: asmhead.bin bootpack.hrb Makefile
