@@ -46,7 +46,7 @@ void HariMain(void)
 			if (fifo8_status(&keyfifo) != 0) {
 				i = fifo8_get(&keyfifo);
 				io_sti();
-				mysprintf(s, "%02x", i);
+				mysprintf(s, "%02X", i);
 				boxfill8(binfo->vram, binfo->scrnx, COL8_008484, 0, 16, 15, 31);
 				putfonts8_asc(binfo->vram, binfo->scrnx, 0, 16, COL8_FFFFFF, s);
 			}
@@ -89,7 +89,7 @@ void HariMain(void)
 					mouse_dbuf[5] = i;
 					mouse_phase = 1;
 					
-					mysprintf(s, "%02x %02x %02x %02x %02x %02x", mouse_dbuf[0], mouse_dbuf[1], mouse_dbuf[2], mouse_dbuf[3], mouse_dbuf[4], mouse_dbuf[5]);
+					mysprintf(s, "%02X %02X %02X %02X %02X %02X", mouse_dbuf[0], mouse_dbuf[1], mouse_dbuf[2], mouse_dbuf[3], mouse_dbuf[4], mouse_dbuf[5]);
 					boxfill8(binfo->vram, binfo->scrnx, COL8_008484, 32, 16, 32 + 8 * 18 - 1, 31);
 					putfonts8_asc(binfo->vram, binfo->scrnx, 32, 16, COL8_FFFFFF, s);
 				}

@@ -37,7 +37,7 @@ int dec2asc(char *str, int dec, int len) {
 }
 
 /* 16進数からASCIIコードに変換 */
-int hex2asc(char *str, int dec, int len) {
+int hex2asc(char *str, int dec, int len, int upper) {
 	int len_buf = 0, tmp;
 	int buf[10];
 
@@ -52,7 +52,8 @@ int hex2asc(char *str, int dec, int len) {
 
 		while (len_buf) {
 			--len_buf;
-			*(str++) = (buf[len_buf] < 10) ? (buf[len_buf] + '0') : (buf[len_buf] + 'a');
+			if (upper) *(str++) = (buf[len_buf] < 10) ? (buf[len_buf] + '0') : (buf[len_buf] + 'A');
+			else *(str++) = (buf[len_buf] < 10) ? (buf[len_buf] + '0') : (buf[len_buf] + 'a');
 		}
 	}
 	else {
@@ -65,7 +66,8 @@ int hex2asc(char *str, int dec, int len) {
 			}
 			else {
 				--tmp;
-				*(str++) = (buf[tmp] < 10) ? (buf[tmp] + '0') : (buf[tmp] - 10 + 'a');
+				if (upper) *(str++) = (buf[tmp] < 10) ? (buf[tmp] + '0') : (buf[tmp] - 10 + 'A');
+				else *(str++) = (buf[tmp] < 10) ? (buf[tmp] + '0') : (buf[tmp] - 10 + 'a');
 			}
 		}
 	}
@@ -92,8 +94,10 @@ void mysprintf(char *str, char *fmt, ...) {
 				len = dec2asc(str, va_arg(args, int), len);
 				break;
 			case 'x':
-				len = hex2asc(str, va_arg(args, int), len);
+				len = hex2asc(str, va_arg(args, int), len, 0);
 				break;
+			case 'X':
+				len = hex2asc(str, va_arg(args, int), len, 1);
 			}
 			str += len;
 			++fmt;
