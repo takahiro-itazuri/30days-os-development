@@ -68,6 +68,7 @@ i386-elf-gcc --version
 - NASM version 2.15.05
 - QEMU emulator version 5.1.0
 - mtools (GNU mtools) 4.0.24
+- 386-elf-gcc (GCC) 9.2.0
 
 
 
