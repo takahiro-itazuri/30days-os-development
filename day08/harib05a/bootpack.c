@@ -12,7 +12,7 @@ void HariMain(void)
 	struct BOOTINFO *binfo = (struct BOOTINFO *) ADR_BOOTINFO;
 	char s[40], mcursor[256], keybuf[32], mousebuf[128];
 	int mx, my, i;
-	unsigned char mouse_dbuf[6], mouse_phase;
+	unsigned char mouse_dbuf[3], mouse_phase;
 
 	init_gdtidt();
 	init_pic();
@@ -72,25 +72,10 @@ void HariMain(void)
 				else if (mouse_phase == 3) {
 					/* マウスの3バイト目を待っている段階 */
 					mouse_dbuf[2] = i;
-					mouse_phase = 4;
-				}
-				else if (mouse_phase == 4) {
-					/* マウスの4バイト目を待っている段階 */
-					mouse_dbuf[3] = i;
-					mouse_phase = 5;
-				}
-				else if (mouse_phase == 5) {
-					/* マウスの5バイト目を待っている段階 */
-					mouse_dbuf[4] = i;
-					mouse_phase = 6;
-				}
-				else if (mouse_phase == 6) {
-					/* マウスの6バイト目を待っている段階 */
-					mouse_dbuf[5] = i;
 					mouse_phase = 1;
-					
-					mysprintf(s, "%02X %02X %02X %02X %02X %02X", mouse_dbuf[0], mouse_dbuf[1], mouse_dbuf[2], mouse_dbuf[3], mouse_dbuf[4], mouse_dbuf[5]);
-					boxfill8(binfo->vram, binfo->scrnx, COL8_008484, 32, 16, 32 + 8 * 18 - 1, 31);
+					/* データが3バイト揃ったので表示 */
+					mysprintf(s, "%02X %02X %02X", mouse_dbuf[0], mouse_dbuf[1], mouse_dbuf[2]);
+					boxfill8(binfo->vram, binfo->scrnx, COL8_008484, 32, 16, 32 + 8 * 8 - 1, 31);
 					putfonts8_asc(binfo->vram, binfo->scrnx, 32, 16, COL8_FFFFFF, s);
 				}
 			}
