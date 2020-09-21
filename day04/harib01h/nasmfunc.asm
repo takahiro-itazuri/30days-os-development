@@ -31,6 +31,7 @@ io_in8:		; int io_in8(int port);
 		MOV		EDX,[ESP+4]		; port
 		MOV		EAX,0
 		IN		AL,DX
+		RET
 
 io_in16:	; int io_in16(int port);
 		MOV		EDX,[ESP+4]		; port
