@@ -3,20 +3,29 @@
 
 /* 10進数からASCIIコードに変換 */
 int dec2asc(char *str, int dec, int len) {
-	int len_buf = 0, tmp;
-	int buf[10];
+	int len_buf = 0, tmp, neg = 0;
+	char buf[10];
 	
+	if (dec < 0) {
+		dec *= -1;
+		neg = 1;
+	}
+
 	for (;;) {
-		buf[len_buf++] = dec % 10;
+		buf[len_buf++] = (dec % 10) + '0';
 		if (dec < 10) break;
 		dec /= 10;
+	}
+
+	if (neg) {
+		buf[len_buf++] = '-';
 	}
 	
 	if (len == 0) {
 		len = len_buf;
 
 		while (len_buf) {
-			*(str++) = buf[--len_buf] + '0';
+			*(str++) = buf[--len_buf];
 		}
 	}
 	else {
@@ -25,10 +34,10 @@ int dec2asc(char *str, int dec, int len) {
 		while (tmp) {
 			if (tmp > len_buf) {
 				--tmp;
-				*(str++) = 0x30;
+				*(str++) = '0';
 			}
 			else {
-				*(str++) = buf[--tmp] + '0';
+				*(str++) = buf[--tmp];
 			}
 		}
 	}
