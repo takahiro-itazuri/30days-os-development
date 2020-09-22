@@ -2,7 +2,7 @@
 #include "mystdio.h"
 
 /* 10進数からASCIIコードに変換 */
-int dec2asc(char *str, int dec, int len) {
+int dec2asc(char *str, int dec, int len, int zero) {
 	int len_buf = 0, tmp, neg = 0;
 	char buf[10];
 	
@@ -34,7 +34,12 @@ int dec2asc(char *str, int dec, int len) {
 		while (tmp) {
 			if (tmp > len_buf) {
 				--tmp;
-				*(str++) = '0';
+				if (zero) {
+					*(str++) = '0';
+				}
+				else {
+					*(str++) = ' ';
+				}
 			}
 			else {
 				*(str++) = buf[--tmp];
@@ -46,7 +51,7 @@ int dec2asc(char *str, int dec, int len) {
 }
 
 /* 16進数からASCIIコードに変換 */
-int hex2asc(char *str, int dec, int len, int upper) {
+int hex2asc(char *str, int dec, int len, int zero, int upper) {
 	int len_buf = 0, tmp;
 	int buf[10];
 
@@ -71,7 +76,12 @@ int hex2asc(char *str, int dec, int len, int upper) {
 		while (tmp) {
 			if (tmp > len_buf) {
 				--tmp;
-				*(str++) = '0';
+				if (zero) {
+					*(str++) = '0';
+				}
+				else {
+					*(str++) = ' ';
+				}
 			}
 			else {
 				--tmp;
@@ -86,7 +96,7 @@ int hex2asc(char *str, int dec, int len, int upper) {
 
 void mysprintf(char *str, char *fmt, ...) {
 	va_list args;
-	int i, len;
+	int i, len, zero = 0;
 
 	va_start(args, fmt);
 
@@ -94,19 +104,23 @@ void mysprintf(char *str, char *fmt, ...) {
 		if (*fmt == '%') {
 			++fmt;
 			len = 0;
+			if (*fmt == '0') {
+				zero = 1;
+				++fmt;
+			}
 			while ('0' <= *fmt && *fmt <= '9') {
 				len = len * 10 + (*fmt - '0');
 				++fmt;
 			}
 			switch(*fmt) {
 			case 'd':
-				len = dec2asc(str, va_arg(args, int), len);
+				len = dec2asc(str, va_arg(args, int), len, zero);
 				break;
 			case 'x':
-				len = hex2asc(str, va_arg(args, int), len, 0);
+				len = hex2asc(str, va_arg(args, int), len, zero, 0);
 				break;
 			case 'X':
-				len = hex2asc(str, va_arg(args, int), len, 1);
+				len = hex2asc(str, va_arg(args, int), len, zero, 1);
 			}
 			str += len;
 			++fmt;
