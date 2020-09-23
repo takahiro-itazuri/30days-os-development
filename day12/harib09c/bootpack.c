@@ -11,7 +11,7 @@ void HariMain(void)
 	struct FIFO8 timerfifo;
 	char s[40], keybuf[32], mousebuf[128], timerbuf[8];
 	int mx, my, i;
-	unsigned int memtotal, count = 0;
+	unsigned int memtotal;
 	struct MOUSE_DEC mdec;
 	struct MEMMAN *memman = (struct MEMMAN *) MEMMAN_ADDR;
 	struct SHTCTL *shtctl;
