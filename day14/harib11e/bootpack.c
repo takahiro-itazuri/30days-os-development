@@ -78,6 +78,7 @@ void HariMain(void)
 
 	for (;;) {
 		count++;
+		putfonts8_asc_sht(sht_back, 0, 112, COL8_FFFFFF, COL8_008484, " ", 1);
 
 		io_cli();
 		if (fifo32_status(&fifo) == 0) {

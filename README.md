@@ -72,37 +72,6 @@ i386-elf-gcc --version
 
 
 
-## QEMU
-13 日目の harib10c でタイマの性能測定をする際に、なぜか割り込み処理が実行されなくなってしまいました。  
-Mac の Activity Monitor を見ると、qemu の CPU 使用率はほぼ 100 % で張り付いていて、`count` は正常にインクリメントされているようでした。  
-そこで、`count++` 後に適用な画面描画を挟むと、正常に割り込み処理が行われるようになりました。  
-しかし、この場合は測定結果の誤差が大きくなってしまい、性能測定の目的が果たせませんでした。
-
-QEMU のせいなのかは不明ですが、[OS自作入門してみた＆やりきった - ハラミTech](https://blog.haramishio.xyz/entry/hariboteos) を参考にしたところ、`-enable-kvm` (`-machine accel=kvm`) をつけることで解消したとのことでした。  
-しかし、KVM は Linux で利用できる機能ですので、Mac では利用できません。
-```
-$ qemu-system-i386 -m 32M -drive file=haribote.img,if=floppy,format=raw -boot a -enable-kvm
-qemu-system-i386: invalid accelerator kvm
-```
-[macos - How to enable KVM on a Mac for Qemu? - Stack Overflow](https://stackoverflow.com/questions/53778106/how-to-enable-kvm-on-a-mac-for-qemu) を参考にしたところ、`-machine accel=hvf` を代わりにアクレラレータとして利用できるとのことでした。  
-しかし、`qemu-system-i386` では利用できないようでした。
-```
-$ qemu-system-i386 -m 32M -drive file=haribote.img,if=floppy,format=raw -boot a -machine accel=hvf
-qemu-system-i386: invalid accelerator hvf
-```
-
-そこで、以下のコマンドを試してみました。
-```
-$ qemu-system-x86_64 -m 32M -drive file=haribote.img,if=floppy,format=raw -boot a -machine accel=hvf
-qemu-system-x86_64: warning: host doesn't support requested feature: CPUID.80000001H:ECX.svm [bit 2]
-```
-CPUID 命令に関する警告メッセージは出ていますが、とりあえずソースコードがそのまま動作するようになりました。  
-
-ただし、結局のところ、測定結果の誤差が非常に大きくなってしまい、性能測定の目的は果たせませんでした。
-測定回数を十分に大きくすることで多少の誤差は無視できるようになるかもしれないですが、どうしても性能測定をしたい場合は、実機で行うのがやはり良さそうです。
-
-
-
 ## 動作確認環境
 - macOS Catalina 10.15.6
 - NASM version 2.15.05

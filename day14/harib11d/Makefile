@@ -31,7 +31,7 @@ img:
 
 run:
 	make img
-	qemu-system-x86_64 -m 32M -drive file=haribote.img,if=floppy,format=raw -boot a -machine accel=hvf
+	qemu-system-i386 -m 32M -drive file=haribote.img,if=floppy,format=raw -boot a
 
 clean:
 	rm -rf *.bin *.lst *.img *.sys *.obj *.hrb
