@@ -58,12 +58,17 @@ i386-elf-gcc --version
 
 
 ## sprintf
-[sprintfを実装する | OS自作入門 5日目-2 【Linux】 | サラリーマンがハッカーを真剣に目指す](http://bttb.s1.valueserver.jp/wordpress/blog/2017/12/17/makeos-5-2/) より sprintf 関数の実装をベースに使用しました。
+標準ライブラリを使用しないようにするため、[sprintfを実装する | OS自作入門 5日目-2 【Linux】 | サラリーマンがハッカーを真剣に目指す](http://bttb.s1.valueserver.jp/wordpress/blog/2017/12/17/makeos-5-2/) より sprintf 関数の実装をベースに使用しました。
 
 上記の実装に加えて、以下の機能を追加しています。
 - `%X`(16 進数表示の際のアルファベットの大文字表記) への対応
 - 文字数指定
 - ゼロパディング
+
+
+
+## strcmp
+標準ライブラリを使用しないようにするため、strcmp 関数を実装しました。
 
 
 
@@ -117,6 +122,16 @@ QEMU でこのスクリプトを実行すると、割り込み処理が実施さ
 - day15
 	- harib12e
 	- harib12f
+	- harib12g
+- day16
+	- harib13a
+	- harib13b
+	- harib13c
+	- harib13d
+	- harib13e
+- day17
+	- harib14a
+
 
 
 ## 動作確認環境
