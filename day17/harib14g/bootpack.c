@@ -388,7 +388,7 @@ void console_task(struct SHEET *sht)
 {
 	struct TIMER *timer;
 	struct TASK *task = task_now();
-	int i, fifobuf[128], cursor_x = 8, cursor_c = COL8_000000;
+	int i, fifobuf[128], cursor_x = 16, cursor_c = COL8_000000;
 	char s[2];
 
 	fifo32_init(&task->fifo, 128, fifobuf, task);
