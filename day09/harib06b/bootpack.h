@@ -26,7 +26,7 @@ void asm_inthandler21(void);
 void asm_inthandler27(void);
 void asm_inthandler2c(void);
 
-/* fio.c */
+/* fifo.c */
 struct FIFO8 {
 	unsigned char *buf;
 	int p, q, size, free, flags;

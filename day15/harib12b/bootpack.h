@@ -31,7 +31,7 @@ unsigned int memtest_sub(unsigned int start, unsigned int end);
 void taskswitch3(void);
 void taskswitch4(void);
 
-/* fio.c */
+/* fifo.c */
 struct FIFO32 {
 	int *buf;
 	int p, q, size, free, flags;

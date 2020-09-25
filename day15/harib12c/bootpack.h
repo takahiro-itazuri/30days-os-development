@@ -30,7 +30,7 @@ void asm_inthandler2c(void);
 unsigned int memtest_sub(unsigned int start, unsigned int end);
 void farjmp(int eip, int cs);
 
-/* fio.c */
+/* fifo.c */
 struct FIFO32 {
 	int *buf;
 	int p, q, size, free, flags;
