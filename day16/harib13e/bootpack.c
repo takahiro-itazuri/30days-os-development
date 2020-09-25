@@ -31,7 +31,6 @@ void HariMain(void)
 	struct SHEET *sht_back, *sht_mouse, *sht_win, *sht_win_b[3];
 	struct TASK *task_a, *task_b[3];
 	struct TIMER *timer;
-	int level;
 
 	init_gdtidt();
 	init_pic();
