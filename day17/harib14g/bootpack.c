@@ -129,6 +129,10 @@ void HariMain(void)
 	mysprintf(s, "memory %dMB   free: %dKB", memtotal / (1024 * 1024), memman_total(memman) / 1024);
 	putfonts8_asc_sht(sht_back, 0, 32, COL8_FFFFFF, COL8_008484, s, 40);
 
+	/* 最初にキーボード状態との食い違いがないように、設定しておくことにする */
+	fifo32_put(&keycmd, KEYCMD_LED);
+	fifo32_put(&keycmd, key_leds);
+
 	for (;;) {
 		if (fifo32_status(&keycmd) > 0 && keycmd_wait < 0) {
 			/* キーボードコントローラに送るデータがあれば送る */
