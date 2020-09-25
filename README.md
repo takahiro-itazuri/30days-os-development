@@ -72,6 +72,53 @@ i386-elf-gcc --version
 
 
 
+## 性能測定
+性能測定をする際に、以下のようなスクリプトを実行します。
+```c
+struct FIFO32 fifo;
+int count = 0;
+
+// snipped
+
+for (;;) {
+	count++;
+
+	io_cli();
+	if (fifo32_status(&fifo) == 0) {
+		io_sti();
+	}
+	else {
+		// snipped
+	}
+}
+```
+
+QEMU でこのスクリプトを実行すると、割り込み処理が実施されない事象が発生します。  
+この事象は、複数のブログにて報告されていて、[OS自作入門してみた＆やりきった - ハラミTech](https://blog.haramishio.xyz/entry/hariboteos) に記載があるように、`-enable-kvm` を QEMU のオプションをつけると解決するようです。  
+
+しかし、KVM は Mac では利用することはできません。  
+適当な文字列の表示を `count++` と `io_cli()` の間に挟み込むことで、割り込み処理が正常に行われるため、この文字列表示の部分を追加しています。
+
+具体的には、以下で影響が発生します。
+- day13
+	- harib10c
+	- harib10d
+	- harib10e
+	- harib10f
+	- harib10g
+	- harib10h
+	- harib10i
+- day14
+	- harib11a
+	- harib11b
+	- harib11c
+	- harib11d
+	- harib11e
+- day15
+	- harib12e
+	- harib12f
+
+
 ## 動作確認環境
 - macOS Catalina 10.15.6
 - NASM version 2.15.05
@@ -99,11 +146,12 @@ i386-elf-gcc --version
 |			|`0x0000_0000`|`0x0000_03ff`|`0x0000_0400` (1[KB])		|リアルモード用割り込みベクタテーブル|
 |			|`0x0000_7c00`|`0x0000_7dff`|`0x0000_0200` (512[B])		|IPL (先頭セクタ)|
 |`DSKCAC0`	|`0x0000_8000`|`0x0003_5fff`|`0x0002_d000` (180[KB])	|ディスクキャッシュ (10 シリンダ分)|
+|`BOOTINFO`	|`0x0000_0ff0`|`0x0000_0ffb`|`0x0000_000c` (12[B])		|ブート関連の情報|
 |`[VRAM]`	|`0x000a_0000`|`0x000b_ffff`|`0x0002_0000` (128[KB])	|VRAM (320 x 200 x 8bit カラー)|
 |			|`0x000c_0000`|`0x000c_7fff`|`0x0000_8000` (32[KB])		|ビデオ BIOS|
 |			|`0x000c_8000`|`0x000e_ffff`|`0x0002_8000` (160[KB])	|拡張 BIOS|
 |			|`0x000f_0000`|`0x000f_ffff`|`0x0001_0000` (64[KB])		|マザーボード BIOS|
-|`DSKCAC`	|`0x0010_0000`|`0x0026_7fff`|`0x0016_8000` (1440[KB])	|ディスクキャッシュ (FDの大きさ分)|
+|`DSKCAC`	|`0x0010_0000`|`0x0026_7fff`|`0x0016_8000` (1440[KB])	|ディスクキャッシュ (FD の大きさ分)|
 |`ADR_IDT`	|`0x0026_8000`|`0x0027_ffff`|`0x0000_0800` (2[KB])		|IDT|
 |`ADR_GDT`	|`0x0027_0000`|`0x0027_ffff`|`0x0001_0000` (64[KB])		|GDT|
 |`BOTPAK`	|`0x0028_0000`|`0x002f_ffff`|`0x0008_0000` (512[KB])	|OS 本体 (bootpack.hrb)|
