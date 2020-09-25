@@ -145,6 +145,14 @@ void HariMain(void)
 						cursor_x += 8;
 					}
 				}
+				if (i == 256 + 0x0e && cursor_x > 8) { /* バックスペース */
+					/* カーソルをスペースで消してから、カーソルを1つ戻す */
+					putfonts8_asc_sht(sht_win, cursor_x, 28, COL8_000000, COL8_FFFFFF, " ", 1);
+					cursor_x -= 8;
+				}
+				/* カーソルの再表示 */
+				boxfill8(sht_win->buf, sht_win->bxsize, cursor_c, cursor_x, 28, cursor_x + 7, 43);
+				sheet_refresh(sht_win, cursor_x, 28, cursor_x + 8, 44);
 			}
 			else if (512 <= i && i < 768) { /* マウスデータ */
 				if (mouse_decode(&mdec, i - 512) != 0) {
