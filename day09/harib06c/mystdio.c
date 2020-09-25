@@ -66,8 +66,8 @@ int hex2asc(char *str, int dec, int len, int zero, int upper) {
 
 		while (len_buf) {
 			--len_buf;
-			if (upper) *(str++) = (buf[len_buf] < 10) ? (buf[len_buf] + '0') : (buf[len_buf] + 'A');
-			else *(str++) = (buf[len_buf] < 10) ? (buf[len_buf] + '0') : (buf[len_buf] + 'a');
+			if (upper) *(str++) = (buf[len_buf] < 10) ? (buf[len_buf] + '0') : (buf[len_buf] - 10 + 'A');
+			else *(str++) = (buf[len_buf] < 10) ? (buf[len_buf] + '0') : (buf[len_buf] - 10 + 'a');
 		}
 	}
 	else {
