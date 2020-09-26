@@ -52,7 +52,7 @@ void console_task(struct SHEET *sht, unsigned int memtotal)
 				cursor_c = COL8_FFFFFF;
 			}
 			if (i == 3) { /* カーソルOFF */
-				boxfill8(sht->buf, sht->bxsize, COL8_000000, cursor_x, 28, cursor_x + 7, 43);
+				boxfill8(sht->buf, sht->bxsize, COL8_000000, cursor_x, cursor_y, cursor_x + 7, cursor_y + 15);
 				cursor_c = -1;
 			}
 			if (256 <= i && i < 512) { /* キーボードデータ（タスクA経由） */
