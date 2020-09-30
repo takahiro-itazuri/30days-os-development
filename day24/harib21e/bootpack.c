@@ -162,12 +162,12 @@ void HariMain(void)
 						fifo32_put(&key_win->task->fifo, 8 + 256);
 					}
 				}
-				else if (i == 0x1c + 256) { /* Enter */
+				if (i == 0x1c + 256) { /* Enter */
 					if (key_win != sht_win) {
 						fifo32_put(&task_cons->fifo, 10 + 256);
 					}
 				}
-				else if (i == 0x0f + 256) { /* Tab */
+				if (i == 0x0f + 256) { /* Tab */
 					cursor_c = keywin_off(key_win, sht_win, cursor_c, cursor_x);
 					j = key_win->height - 1;
 					if (j == 0) {
@@ -176,40 +176,41 @@ void HariMain(void)
 					key_win = shtctl->sheets[j];
 					cursor_c = keywin_on(key_win, sht_win, cursor_c);
 				}
-				else if (i == 0x2a + 256) { /* 左シフトON */
+				if (i == 0x2a + 256) { /* 左シフトON */
 					key_shift |= 1;
 				}
-				else if (i == 0x36 + 256) { /* 右シフトON */
+				if (i == 0x36 + 256) { /* 右シフトON */
 					key_shift |= 2;
 				}
-				else if (i == 0xaa + 256) { /* 左シフトOFF */
+				if (i == 0xaa + 256) { /* 左シフトOFF */
 					key_shift &= ~1;
 				}
-				else if (i == 0xb6 + 256) { /* 右シフトOFF */
+				if (i == 0xb6 + 256) { /* 右シフトOFF */
 					key_shift &= ~2;
 				}
-				else if (i == 0x1d + 256) { /* Ctrl ON */
+				if (i == 0x1d + 256) { /* Ctrl ON */
 					key_ctrl = 1;
 				}
-				else if (i == 0x9d + 256) { /* Ctrl OFF */
+				if (i == 0x9d + 256) { /* Ctrl OFF */
 					key_ctrl = 0;
 				}
-				else if (i == 0x3a + 256) { /* CapsLock */
+				if (i == 0x3a + 256) { /* CapsLock */
 					key_leds ^= 4;
 					fifo32_put(&keycmd, KEYCMD_LED);
 					fifo32_put(&keycmd, key_leds);
 				}
-				else if (i == 256 + 0x45) { /* NumLock */
+				if (i == 256 + 0x45) { /* NumLock */
 					key_leds ^= 2;
 					fifo32_put(&keycmd, KEYCMD_LED);
 					fifo32_put(&keycmd, key_leds);
 				}
-				else if (i == 0x46 + 256) { /* ScrollLock */
+				if (i == 0x46 + 256) { /* ScrollLock */
 					key_leds ^= 1;
 					fifo32_put(&keycmd, KEYCMD_LED);
 					fifo32_put(&keycmd, key_leds);
 				}
-				else if (i < 0x80 + 256) { /* キーコードを文字コードに変換 */
+				
+				if (i < 0x80 + 256) { /* キーコードを文字コードに変換 */
 					if (key_shift == 0) {
 						s[0] = keytable0[i - 256];
 					}
