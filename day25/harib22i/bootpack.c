@@ -210,10 +210,9 @@ void HariMain(void)
 				else {
 					s[0] = 0;
 				}
-				if (key_ctrl && s[0] == 'C' && task_cons[0]->tss.ss0 != 0) { /* Ctrl+C */
+				if (key_ctrl && s[0] == 'C') { /* Ctrl+C */
 					task = key_win->task;
-					if (task != 0 && task->tss.ss0 != 0)
-					{
+					if (task != 0 && task->tss.ss0 != 0) {
 						cons_putstr(task->cons, "\nBreak(key) :\n");
 						io_cli();
 						task->tss.eax = (int)&(task->tss.esp0);
